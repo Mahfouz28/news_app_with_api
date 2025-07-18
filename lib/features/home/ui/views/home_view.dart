@@ -12,6 +12,11 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeCubit = context.read<HomePageCubit>();
+
+    // تحميل أولي (اختياري)
+    // homeCubit.getNewsByCategory('all'); ← يمكنك تفعيل هذا في init
+
     return Scaffold(
       appBar: CustomAppBar(onAlertPressed: () {}),
       body: Padding(
@@ -19,7 +24,6 @@ class HomeView extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 16),
-
             LatestHeader(
               title: "Latest",
               actionText: "See all",
@@ -28,7 +32,15 @@ class HomeView extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10),
-            const CategoryList(),
+
+            /// هنا نمرر onCategorySelected ليتفاعل مع الضغط
+            CategoryList(
+              onCategorySelected: (category) {
+                homeCubit.getNewsByCategory(category);
+              },
+            ),
+
+            const SizedBox(height: 8),
             Expanded(
               child: BlocBuilder<HomePageCubit, HomePageState>(
                 builder: (context, state) {
@@ -42,7 +54,8 @@ class HomeView extends StatelessWidget {
                         return NewsWidget(
                           title: article.title,
                           source: article.source.name,
-                          category: "General",
+                          category:
+                              "General", // يمكنك لاحقًا تمرير التصنيف الفعلي هنا
                           imageUrl: article.urlToImage ?? '',
                           timestamp: article.publishedAt ?? 'Unknown time',
                           author: article.author ?? 'Unknown author',

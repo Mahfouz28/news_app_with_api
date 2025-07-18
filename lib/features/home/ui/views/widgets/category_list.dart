@@ -1,30 +1,47 @@
 import 'package:flutter/material.dart';
 
-class CategoryList extends StatelessWidget {
-  const CategoryList({super.key});
+class CategoryList extends StatefulWidget {
+  final ValueChanged<String> onCategorySelected;
+
+  const CategoryList({super.key, required this.onCategorySelected});
+
+  @override
+  State<CategoryList> createState() => _CategoryListState();
+}
+
+class _CategoryListState extends State<CategoryList> {
+  String selectedCategory = 'All';
+
+  final List<String> categories = [
+    'All',
+    'Sports',
+    'Politics',
+    'Business',
+    'Health',
+    'Travel',
+    'Science',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      child: Column(
-        children: [
-          const SizedBox(width: 10),
-          Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: const [
-                CategoryChip(label: 'All'),
-                CategoryChip(label: 'Sports'),
-                CategoryChip(label: 'Politics'),
-                CategoryChip(label: 'Business'),
-                CategoryChip(label: 'Health'),
-                CategoryChip(label: 'Travel'),
-                CategoryChip(label: 'Science'),
-              ],
-            ),
-          ),
-        ],
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: categories
+            .map(
+              (category) => CategoryChip(
+                label: category,
+                isSelected: selectedCategory == category,
+                onTap: () {
+                  setState(() {
+                    selectedCategory = category;
+                  });
+                  widget.onCategorySelected(category);
+                },
+              ),
+            )
+            .toList(),
       ),
     );
   }
@@ -32,25 +49,39 @@ class CategoryList extends StatelessWidget {
 
 class CategoryChip extends StatelessWidget {
   final String label;
+  final VoidCallback onTap;
+  final bool isSelected;
 
-  const CategoryChip({super.key, required this.label});
+  const CategoryChip({
+    super.key,
+    required this.label,
+    required this.onTap,
+    required this.isSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {},
-      child: Text(label),
-      style: TextButton.styleFrom(foregroundColor: Colors.black),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: isSelected ? Colors.blue : Colors.transparent,
+              width: 2,
+            ),
+          ),
+        ),
+        child: TextButton(
+          onPressed: onTap,
+          style: TextButton.styleFrom(
+            foregroundColor: isSelected ? Colors.blue : Colors.black,
+            backgroundColor: Colors.transparent,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+          ),
+          child: Text(label),
+        ),
+      ),
     );
   }
 }
-
-const List<String> categories = [
-  'All',
-  'Sports',
-  'Politics',
-  'Business',
-  'Health',
-  'Travel',
-  'Science',
-];

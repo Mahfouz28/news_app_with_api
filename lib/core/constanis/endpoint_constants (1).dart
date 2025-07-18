@@ -6,4 +6,6 @@ class EndpointConstants {
 
   static const String everything = '/everything';
   static const String topHeadlines = '/top-headlines';
+  static const String category = '/top-headlines';
+
 }

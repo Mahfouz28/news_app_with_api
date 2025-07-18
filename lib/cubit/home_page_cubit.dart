@@ -9,13 +9,12 @@ class HomePageCubit extends Cubit<HomePageState> {
 
   final dio = DioClient();
   List<NewsModel> news = [];
-
   getNews(String query) async {
     emit(HomeLoading());
 
     final now = DateTime.now();
     final from = now
-        .subtract(Duration(days: 30))
+        .subtract(const Duration(days: 30))
         .toIso8601String()
         .substring(0, 10); // "2025-07-13"
     final to = now.toIso8601String().substring(0, 10); // "2025-07-14"
@@ -39,6 +38,35 @@ class HomePageCubit extends Cubit<HomePageState> {
       emit(HomeSuccess(news));
     } catch (e) {
       print("Error : $e");
+    }
+  }
+
+  getNewsByCategory(String category) async {
+    emit(HomeLoading());
+
+    try {
+      final queryParameters = {
+        "apiKey": EndpointConstants.apiKey,
+        "country": "us", 
+      };
+
+      if (category.toLowerCase() != 'all') {
+        queryParameters['category'] = category.toLowerCase();
+      }
+
+      var response = await dio.get(
+        EndpointConstants.topHeadlines,
+        queryParameters: queryParameters,
+      );
+
+      news = (response.data['articles'] as List)
+          .map((e) => NewsModel.fromJson(e))
+          .toList();
+
+      emit(HomeSuccess(news));
+    } catch (e) {
+      print("Error : $e");
+      emit(HomeError(e.toString())); // يُفضل إرسال الخطأ
     }
   }
 }
