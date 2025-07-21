@@ -6,6 +6,8 @@ import 'package:news_app_with_api/features/auth/ui/login/screen/login_screen.dar
 import 'package:news_app_with_api/features/onboarding/ui/cubit/cubit/on_boarding_cubit_cubit.dart';
 
 class Lowerpage extends StatelessWidget {
+  const Lowerpage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<OnBoardingCubit>();

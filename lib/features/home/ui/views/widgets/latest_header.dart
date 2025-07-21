@@ -22,6 +22,18 @@ class LatestHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Search Field
+          CustomTextField(
+            hintText: 'Search',
+            fieldName: '',
+            suffixIcon: Icons.analytics_outlined,
+            prefixicone: Icons.search,
+            onChange: (value) {
+              context.read<HomePageCubit>().getNews(value);
+            },
+          ),
+          const SizedBox(height: 8),
+
           // Title and Action Row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,16 +59,6 @@ class LatestHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-
-          // Search Field
-          CustomTextField(
-            hintText: 'Search',
-            fieldName: '',
-            prefixicone: Icons.search,
-            onChange: (value) {
-              context.read<HomePageCubit>().getNews(value);
-            },
-          ),
         ],
       ),
     );

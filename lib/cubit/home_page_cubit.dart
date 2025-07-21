@@ -41,21 +41,24 @@ class HomePageCubit extends Cubit<HomePageState> {
     }
   }
 
-  getNewsByCategory(String category) async {
+  getNewsByCategory([String category = 'sports']) async {
     emit(HomeLoading());
 
     try {
       final queryParameters = {
         "apiKey": EndpointConstants.apiKey,
-        "country": "us", 
+        "sortBy": "publishedAt",
+        "language": "en",
       };
 
       if (category.toLowerCase() != 'all') {
-        queryParameters['category'] = category.toLowerCase();
+        queryParameters['q'] = category;
+      } else {
+        queryParameters['q'] = "news"; 
       }
 
-      var response = await dio.get(
-        EndpointConstants.topHeadlines,
+      final response = await dio.get(
+        EndpointConstants.everything,
         queryParameters: queryParameters,
       );
 
@@ -66,7 +69,7 @@ class HomePageCubit extends Cubit<HomePageState> {
       emit(HomeSuccess(news));
     } catch (e) {
       print("Error : $e");
-      emit(HomeError(e.toString())); // يُفضل إرسال الخطأ
+      emit(HomeError(e.toString()));
     }
   }
 }

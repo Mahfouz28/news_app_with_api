@@ -19,6 +19,8 @@ dependencies:
   firebase_core: ^3.15.1
   firebase_auth: ^5.6.2
   flutter_launcher_icons: ^0.14.4
+  lottie: ^3.3.1
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
@@ -33,4 +35,4 @@ flutter:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/logo.png" # Your icon file path
+  image_path: "assets/Group 13.png" # Your icon file path

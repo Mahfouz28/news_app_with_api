@@ -13,7 +13,7 @@ class DioInterceptors {
         compact: true,
         maxWidth: 90,
       ),
-      // يمكنك إضافة المزيد من الـ interceptors هنا (مثل: TokenInterceptor)
+ 
     ];
   }
 }

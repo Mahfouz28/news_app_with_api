@@ -17,7 +17,6 @@ class NewsModel {
     this.urlToImage,
     this.publishedAt,
     this.content,
-    required category,
   });
 
   factory NewsModel.fromJson(Map<String, dynamic> json) {
@@ -30,7 +29,6 @@ class NewsModel {
       urlToImage: json['urlToImage'],
       publishedAt: json['publishedAt'],
       content: json['content'],
-      category: null,
     );
   }
 

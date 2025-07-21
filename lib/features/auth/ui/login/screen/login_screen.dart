@@ -8,7 +8,9 @@ import 'package:news_app_with_api/features/auth/ui/signun/widgets/custom_checkbo
 import 'package:news_app_with_api/features/auth/ui/signun/widgets/custom_text_field.dart';
 import 'package:news_app_with_api/features/auth/ui/signun/widgets/socialloginsection.dart';
 import 'package:news_app_with_api/features/auth/ui/signun/widgets/upper_siginin.dart';
-import 'package:news_app_with_api/features/home/ui/views/home_view.dart';
+import 'package:news_app_with_api/features/home/ui/views/widgets/bottomnav.dart';
+
+// importاتك كما هي...
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -59,13 +61,12 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                /// BlocListener for login
                 BlocListener<LoginCubitCubit, LoginCubitState>(
                   listener: (context, state) {
                     if (state is LoginLoading) {
                       showDialog(
                         context: context,
-
+                        barrierDismissible: false,
                         builder: (_) => const Center(
                           child: CircularProgressIndicator(
                             color: Colors.blue,
@@ -74,18 +75,19 @@ class LoginScreen extends StatelessWidget {
                         ),
                       );
                     } else if (state is LoginSuccess) {
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.pop(context); // إغلاق Dialog
+                      final homeCubit = context.read<HomePageCubit>();
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => BlocProvider(
-                            create: (_) => HomePageCubit()..getNews('general'),
-                            child: const HomeView(),
+                          builder: (_) => BlocProvider.value(
+                            value: homeCubit,
+                            child: const BottomNav(),
                           ),
                         ),
-                        (route) => false,
                       );
                     } else if (state is LoginError) {
-                      Navigator.pop(context);
+                      Navigator.pop(context); // إغلاق Dialog
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -101,10 +103,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           content: Row(
                             children: [
-                              const Icon(
-                                Icons.error_outline,
-                                color: Colors.white,
-                              ),
+                              const Icon(Icons.error_outline, color: Colors.white),
                               const SizedBox(width: 14),
                               Expanded(
                                 child: Text(
@@ -124,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                   child: CustomTextButton(
                     label: 'Login',
                     onPressed: () {
-                      loginCubit.loginWithEmail(context);
+                      loginCubit.loginWithEmail();
                     },
                   ),
                 ),

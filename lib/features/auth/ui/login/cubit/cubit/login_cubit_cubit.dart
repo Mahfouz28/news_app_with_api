@@ -10,44 +10,19 @@ class LoginCubitCubit extends Cubit<LoginCubitState> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> loginWithEmail(BuildContext context) async {
+  Future<void> loginWithEmail() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.redAccent,
-          elevation: 6,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          content: const Row(
-            children: [
-              Icon(Icons.error_outline, color: Colors.white),
-              SizedBox(width: 14),
-              Expanded(
-                child: Text(
-                  "Please Enter Password and Email ",
-                  style: TextStyle(color: Colors.white),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-          duration: const Duration(seconds: 4),
-        ),
-      );
+      emit(LoginError("Please enter both email and password"));
       return;
     }
 
     emit(LoginLoading());
 
     try {
-       await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );

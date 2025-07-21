@@ -16,14 +16,12 @@ class _MyWidgetState extends State<Splashscreen> {
   void initState() {
     super.initState();
 
-    // لتشغيل الأنيميشن بعد 1 ثانية
     Timer(const Duration(seconds: 1), () {
       setState(() {
         opacity = 1.0;
       });
     });
 
-    // الانتقال للصفحة التالية بعد 3 ثوانٍ
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(

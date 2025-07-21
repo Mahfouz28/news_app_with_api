@@ -6,6 +6,7 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
   final TextEditingController? controller;
   final IconData? prefixicone;
+  final IconData? suffixIcon;
   final ValueChanged<String>? onChange;
 
   const CustomTextField({
@@ -15,6 +16,7 @@ class CustomTextField extends StatefulWidget {
     this.isPassword = false,
     this.controller,
     this.prefixicone,
+    this.suffixIcon,
     this.onChange,
   });
 
@@ -57,7 +59,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           obscureText: widget.isPassword ? _obscureText : false,
           decoration: InputDecoration(
             hintText: widget.hintText,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 14,
@@ -76,7 +80,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       });
                     },
                   )
-                : null,
+                : widget.suffixIcon != null
+                    ? Icon(widget.suffixIcon)
+                    : null,
           ),
         ),
       ],
