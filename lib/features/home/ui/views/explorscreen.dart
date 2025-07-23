@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:news_app_with_api/cubit/home_page_cubit.dart';
 import 'package:news_app_with_api/cubit/home_page_state.dart';
@@ -10,26 +11,24 @@ import 'package:news_app_with_api/features/home/ui/views/widgets/custom_app_bar.
 class Explorscreen extends StatelessWidget {
   const Explorscreen({super.key});
 
-  get homeCubit => null;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(onAlertPressed: () {}),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: Column(
           children: [
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
 
             CategoryList(
               onCategorySelected: (category) {
                 context.read<HomePageCubit>().getNewsByCategory(category);
               },
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
+            SizedBox(height: 8.h),
 
-            const SizedBox(height: 8),
             Expanded(
               child: BlocBuilder<HomePageCubit, HomePageState>(
                 builder: (context, state) {
@@ -52,10 +51,18 @@ class Explorscreen extends StatelessWidget {
                       },
                     );
                   } else if (state is HomeError) {
-                    return Center(child: Text(state.message));
+                    return Center(
+                      child: Text(
+                        state.message,
+                        style: TextStyle(fontSize: 16.sp),
+                      ),
+                    );
                   } else {
-                    return const Center(
-                      child: Text("Something went wrong. Try again."),
+                    return Center(
+                      child: Text(
+                        "Something went wrong. Try again.",
+                        style: TextStyle(fontSize: 16.sp),
+                      ),
                     );
                   }
                 },

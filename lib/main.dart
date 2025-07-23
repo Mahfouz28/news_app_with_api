@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app_with_api/cubit/home_page_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:news_app_with_api/features/auth/ui/signun/cubit/cubit/signup_cubit_cubit.dart';
@@ -31,9 +32,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Splashscreen(),
-      debugShowCheckedModeBanner: false,
+    return ScreenUtilInit(
+      designSize: const Size(428, 926),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, child) {
+        return const MaterialApp(
+          home: Splashscreen(),
+          debugShowCheckedModeBanner: false,
+        );
+      },
     );
   }
 }

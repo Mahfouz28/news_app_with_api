@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app_with_api/cubit/home_page_cubit.dart';
 import 'package:news_app_with_api/features/auth/ui/signun/widgets/custom_text_field.dart';
 
@@ -18,7 +19,7 @@ class LatestHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(8.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -32,7 +33,8 @@ class LatestHeader extends StatelessWidget {
               context.read<HomePageCubit>().getNews(value);
             },
           ),
-          const SizedBox(height: 8),
+
+          8.verticalSpace,
 
           // Title and Action Row
           Row(
@@ -40,25 +42,23 @@ class LatestHeader extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
               GestureDetector(
                 onTap: onActionTap,
                 child: Text(
                   actionText,
-                  style: const TextStyle(
-                    fontSize: 14,
+                  style: TextStyle(
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w200,
-                    color: Color(0xff4E4B66),
+                    color: const Color(0xff4E4B66),
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+
+          8.verticalSpace,
         ],
       ),
     );

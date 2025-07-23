@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignInHeader extends StatelessWidget {
   final String title;
@@ -13,7 +14,7 @@ class SignInHeader extends StatelessWidget {
     required this.color,
     required this.color1,
     required this.title1,
-    required this.suptitel, // أضفناه هنا
+    required this.suptitel,
   });
 
   @override
@@ -25,7 +26,7 @@ class SignInHeader extends StatelessWidget {
           TextSpan(
             text: title,
             style: TextStyle(
-              fontSize: 48,
+              fontSize: 48.sp,
               fontWeight: FontWeight.bold,
               color: color,
             ),
@@ -33,7 +34,7 @@ class SignInHeader extends StatelessWidget {
               TextSpan(
                 text: title1,
                 style: TextStyle(
-                  fontSize: 48,
+                  fontSize: 48.sp,
                   fontWeight: FontWeight.bold,
                   color: color1,
                 ),
@@ -41,11 +42,11 @@ class SignInHeader extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           suptitel,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 20.sp,
             color: Colors.grey[700],
             fontWeight: FontWeight.w400,
           ),

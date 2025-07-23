@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NewsWidget extends StatelessWidget {
   final String title;
@@ -20,7 +22,6 @@ class NewsWidget extends StatelessWidget {
     this.onTap,
   });
 
-  // 🔽 عند الضغط على زر الخيارات، يعرض Bottom Sheet فيه "مشاركة" و"حفظ"
   void _showOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -32,18 +33,18 @@ class NewsWidget extends StatelessWidget {
         children: [
           ListTile(
             leading: const Icon(Icons.share),
-            title: const Text("مشاركة"),
+            title: const Text("Share"),
             onTap: () {
               Navigator.pop(context);
-              // ✳️ TODO: تنفيذ عملية المشاركة
+              // TODO: implement share functionality
             },
           ),
           ListTile(
             leading: const Icon(Icons.bookmark_border),
-            title: const Text("حفظ"),
+            title: const Text("Save"),
             onTap: () {
               Navigator.pop(context);
-              // ✳️ TODO: تنفيذ عملية الحفظ
+              // TODO: implement save functionality
             },
           ),
         ],
@@ -54,15 +55,14 @@ class NewsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap, // 🔗 ينفذ العملية عند الضغط على الـ NewsWidget
+      onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 3), // ↕️ هامش عمودي
-        padding: const EdgeInsets.all(8), // 🧱 Padding داخلي للمحتوى
+        margin: EdgeInsets.symmetric(vertical: 6.h),
+        padding: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), // ⭕️ زوايا مستديرة
+          borderRadius: BorderRadius.circular(12.r),
           color: Colors.white,
           boxShadow: [
-            // 🌫️ ظل خفيف لإعطاء إحساس بالبطاقة (Card)
             BoxShadow(
               color: Colors.grey.withOpacity(0.15),
               spreadRadius: 1,
@@ -71,118 +71,119 @@ class NewsWidget extends StatelessWidget {
             ),
           ],
         ),
-
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🖼 صورة الخبر
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                imageUrl,
-                width: 100,
-                height: 100,
-                fit: BoxFit.cover,
-                // ❌ في حال فشل تحميل الصورة
-                errorBuilder: (_, __, ___) => Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.grey[300],
-                  child: const Icon(Icons.broken_image),
-                ),
-                // ⏳ أثناء تحميل الصورة
-                loadingBuilder: (context, child, progress) {
-                  if (progress == null) return child;
-                  return Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.grey[300],
+            // News Image with fixed size
+            SizedBox(
+              height: 100.h,
+              width: 100.w,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.r),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl.isNotEmpty
+                      ? imageUrl
+                      : "https://via.placeholder.com/150",
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    color: Colors.grey[200],
                     child: const Center(
                       child: CircularProgressIndicator(strokeWidth: 2),
                     ),
-                  );
-                },
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: Colors.grey[300],
+                    child: const Icon(
+                      Icons.broken_image_outlined,
+                      size: 40,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
               ),
             ),
 
-            const SizedBox(width: 10), // ↔️ مسافة بين الصورة والنصوص
+            SizedBox(width: 10.w),
 
-            // 📄 محتوى الخبر
+            // News Content
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 👤 اسم الكاتب
+                  // Author Name
                   Text(
                     author,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 12,
+                    style: TextStyle(
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.grey,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
 
-                  // 📰 عنوان الخبر
+                  // News Title
                   Text(
                     title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 14,
+                    style: TextStyle(
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
 
-                  // 📅 معلومات إضافية مثل المصدر والتوقيت
+                  // Source, Timestamp, More Button
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // 🌐 مصدر الخبر
+                      // Source
                       Flexible(
                         child: Text(
                           source,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 11,
+                          style: TextStyle(
+                            fontSize: 11.sp,
                             color: Colors.black54,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6.w),
 
-                      // 🕒 أيقونة التوقيت
+                      // Time Icon
                       Icon(
                         Icons.access_time,
-                        size: 12,
+                        size: 12.sp,
                         color: Colors.grey[600],
                       ),
-                      const SizedBox(width: 2),
+                      SizedBox(width: 2.w),
 
-                      // 🧭 وقت النشر
+                      // Timestamp
                       Text(
                         timestamp,
-                        style: TextStyle(fontSize: 10, color: Colors.grey[600]),
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          color: Colors.grey[600],
+                        ),
                       ),
 
-                      const Spacer(), // ⚖️ يدفع زر الخيارات لأقصى اليمين
+                      const Spacer(),
 
-                      // ⋯ زر "المزيد"
+                      // More Options Button
                       IconButton(
                         onPressed: () => _showOptions(context),
                         icon: Icon(
                           Icons.more_horiz,
-                          size: 18,
+                          size: 18.sp,
                           color: Colors.grey[600],
                         ),
-                        constraints: const BoxConstraints(), // 🔒 يقلل الحجم
-                        padding: EdgeInsets.zero, // ❌ بدون هوامش داخلية
+                        constraints: const BoxConstraints(),
+                        padding: EdgeInsets.zero,
                       ),
                     ],
                   ),

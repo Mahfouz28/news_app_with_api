@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SocialLoginSection extends StatelessWidget {
   final String facebookLabel;
@@ -20,56 +21,66 @@ class SocialLoginSection extends StatelessWidget {
     required this.actionText,
     required this.onActionTap,
     required Null Function() onSignUpTap,
+
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text("or continue with"),
-        const SizedBox(height: 16),
+        Text(
+          "or continue with",
+          style: TextStyle(fontSize: 14.sp),
+        ),
+        SizedBox(height: 16.h),
 
         // Facebook & Google Buttons
         Row(
           children: [
             Expanded(
               child: SizedBox(
-                height: 50,
+                height: 50.h,
                 child: TextButton.icon(
                   onPressed: onFacebookTap,
                   icon: Image.asset(
                     'assets/Facebookicon.png',
-                    height: 20,
-                    width: 20,
+                    height: 20.h,
+                    width: 20.w,
                   ),
-                  label: Text(facebookLabel),
+                  label: Text(
+                    facebookLabel,
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.grey[200],
                     foregroundColor: Colors.grey[700],
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(6.r),
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Expanded(
               child: SizedBox(
-                height: 50,
+                height: 50.h,
                 child: TextButton.icon(
                   onPressed: onGoogleTap,
                   icon: Image.asset(
                     'assets/Googelicone.png',
-                    height: 20,
-                    width: 20,
+                    height: 20.h,
+                    width: 20.w,
                   ),
-                  label: Text(googleLabel),
+                  label: Text(
+                    googleLabel,
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.grey[200],
                     foregroundColor: Colors.grey[700],
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(6.r),
                     ),
                   ),
                 ),
@@ -78,20 +89,24 @@ class SocialLoginSection extends StatelessWidget {
           ],
         ),
 
-        const SizedBox(height: 24),
+        12.verticalSpace,
 
         // Bottom Text
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(questionText),
+            Text(
+              questionText,
+              style: TextStyle(fontSize: 14.sp),
+            ),
             TextButton(
               onPressed: onActionTap,
               child: Text(
                 actionText,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.blue,
                   fontWeight: FontWeight.bold,
+                  fontSize: 14.sp,
                 ),
               ),
             ),

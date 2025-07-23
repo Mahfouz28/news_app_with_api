@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CategoryList extends StatefulWidget {
   final ValueChanged<String> onCategorySelected;
@@ -25,9 +26,10 @@ class _CategoryListState extends State<CategoryList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: 50.h,
       child: ListView(
         scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(horizontal: 8.w),
         children: categories
             .map(
               (category) => CategoryChip(
@@ -62,13 +64,13 @@ class CategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      padding: EdgeInsets.symmetric(horizontal: 4.w),
       child: Container(
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
               color: isSelected ? Colors.blue : Colors.transparent,
-              width: 2,
+              width: 2.h,
             ),
           ),
         ),
@@ -77,7 +79,11 @@ class CategoryChip extends StatelessWidget {
           style: TextButton.styleFrom(
             foregroundColor: isSelected ? Colors.blue : Colors.black,
             backgroundColor: Colors.transparent,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            textStyle: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           child: Text(label),
         ),

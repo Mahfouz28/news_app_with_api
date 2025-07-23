@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:news_app_with_api/features/home/ui/views/details_page.dart';
 import 'package:news_app_with_api/features/home/ui/views/widgets/body.dart';
+import 'package:news_app_with_api/features/home/ui/views/widgets/category_list.dart';
 import 'package:news_app_with_api/features/home/ui/views/widgets/custom_app_bar.dart';
 import 'package:news_app_with_api/features/home/ui/views/widgets/latest_header.dart';
 import '../../../../cubit/home_page_cubit.dart';
@@ -16,11 +19,11 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(onAlertPressed: () {}),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
+            20.verticalSpace,
 
             /// Trending Header
             LatestHeader(
@@ -31,11 +34,11 @@ class HomeView extends StatelessWidget {
               },
             ),
 
-            const SizedBox(height: 12),
+            12.verticalSpace,
 
             /// Trending News Card (1 item)
             SizedBox(
-              height: 350, // Increased height
+              height: 420.h,
               child: BlocBuilder<HomePageCubit, HomePageState>(
                 builder: (context, state) {
                   if (state is HomeLoading) {
@@ -57,103 +60,119 @@ class HomeView extends StatelessWidget {
                         );
                       },
                       child: Container(
-                        margin: const EdgeInsets.only(right: 12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: article.urlToImage != null
-                                  ? Image.network(
-                                      article.urlToImage!,
-                                      height: 200, // Increased image height
-                                      width: double.infinity,
+                        margin: EdgeInsets.only(right: 12.w),
+                        child: Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12.r),
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          article.urlToImage?.isNotEmpty == true
+                                          ? article.urlToImage!
+                                          : "https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg",
+                                      height: 240.h,
                                       fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                            return Container(
-                                              height: 200,
-                                              width: double.infinity,
+                                      errorWidget: (context, url, error) =>
+                                          Flexible(
+                                            child: Container(
+                                              height: 240.h,
                                               color: Colors.grey[300],
                                               child: const Icon(
                                                 Icons.broken_image_outlined,
                                                 size: 50,
                                                 color: Colors.grey,
                                               ),
-                                            );
-                                          },
-                                    )
-                                  : Container(
-                                      height: 200,
-                                      width: double.infinity,
-                                      color: Colors.grey[300],
-                                      child: const Icon(
-                                        Icons.broken_image_outlined,
-                                        size: 50,
-                                        color: Colors.grey,
-                                      ),
+                                            ),
+                                          ),
                                     ),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              article.source.name,
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              article.description ?? 'No description available',
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 4),
-                            if (article.author != null &&
-                                article.author!.isNotEmpty)
-                              Text(
-                                article.author!,
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black54,
+                                  ),
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+
+                                // : Container(
+                                //     height: 200.h,
+                                //     width: double.infinity,
+                                //     color: Colors.grey[300],
+                                //     child: const Icon(
+                                //       Icons.broken_image_outlined,
+                                //       size: 50,
+                                //       color: Colors.grey,
+                                //     ),
+                                //   ),
                               ),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.access_time,
-                                  size: 14,
-                                  color: Colors.black54,
+                              6.verticalSpace,
+                              Flexible(
+                                child: Text(
+                                  article.source.name,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(width: 4),
-                                Expanded(
+                              ),
+                              4.verticalSpace,
+                              Flexible(
+                                child: Text(
+                                  article.description ??
+                                      'No description available',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              4.verticalSpace,
+                              if (article.author != null &&
+                                  article.author!.isNotEmpty)
+                                Flexible(
                                   child: Text(
-                                    article.publishedAt ?? 'Unknown time',
-                                    style: const TextStyle(
-                                      fontSize: 12,
+                                    article.author!,
+                                    style: TextStyle(
+                                      fontSize: 13.sp,
                                       color: Colors.black54,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                IconButton(
-                                  icon: const Icon(Icons.more_horiz, size: 18),
-                                  onPressed: () {},
-                                ),
-                              ],
-                            ),
-                          ],
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.access_time,
+                                    size: 14.sp,
+                                    color: Colors.black54,
+                                  ),
+                                  4.horizontalSpace,
+                                  Expanded(
+                                    child: Text(
+                                      article.publishedAt ?? 'Unknown time',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.black54,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.more_horiz, size: 18.sp),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -164,11 +183,11 @@ class HomeView extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 20),
+            6.verticalSpace,
 
             /// All News Header
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: EdgeInsets.symmetric(vertical: 8.r),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -176,20 +195,28 @@ class HomeView extends StatelessWidget {
                     "All News",
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
+                      fontSize: 16.sp,
                     ),
                   ),
                   Text(
                     "See all",
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w200,
-                      fontSize: 15,
+                      fontSize: 15.sp,
                     ),
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 8),
+            8.verticalSpace,
+
+            CategoryList(
+              onCategorySelected: (category) {
+                context.read<HomePageCubit>().getNewsByCategory(category);
+              },
+            ),
+            8.verticalSpace,
 
             /// All News List
             BlocBuilder<HomePageCubit, HomePageState>(
@@ -206,7 +233,7 @@ class HomeView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final article = allNews[index];
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 12.0),
+                        padding: EdgeInsets.only(bottom: 12.h),
                         child: NewsWidget(
                           title: article.title,
                           source: article.source.name,
@@ -234,7 +261,7 @@ class HomeView extends StatelessWidget {
               },
             ),
 
-            const SizedBox(height: 24),
+            24.horizontalSpace,
           ],
         ),
       ),

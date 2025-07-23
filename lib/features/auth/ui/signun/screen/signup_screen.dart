@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app_with_api/features/auth/ui/login/screen/login_screen.dart';
 import 'package:news_app_with_api/features/auth/ui/signun/cubit/cubit/signup_cubit_cubit.dart';
 import 'package:news_app_with_api/features/auth/ui/signun/cubit/cubit/signup_cubit_state.dart';
@@ -19,7 +20,7 @@ class SigninScreen extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24.r),
           child: Form(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +32,7 @@ class SigninScreen extends StatelessWidget {
                   color1: Colors.blue,
                   suptitel: 'Signup to get Started',
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 CustomTextField(
                   controller: signupCubit.emailController,
@@ -39,7 +40,7 @@ class SigninScreen extends StatelessWidget {
                   fieldName: 'Username',
                   isPassword: false,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 CustomTextField(
                   controller: signupCubit.passwordController,
@@ -47,24 +48,22 @@ class SigninScreen extends StatelessWidget {
                   fieldName: 'Password',
                   isPassword: true,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 CustomTextField(
                   controller: signupCubit.confirmPasswordController,
-
                   hintText: 'Confirm password',
                   fieldName: 'Confirm Password',
                   isPassword: true,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 const CustomCheckbox(
                   label: 'Remember me',
                   activeColor: Colors.blue,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
-                /// BlocListener for SignupCubit
                 BlocListener<SignupCubit, SignupState>(
                   listener: (context, state) {
                     if (state is SignupLoading) {
@@ -78,26 +77,27 @@ class SigninScreen extends StatelessWidget {
                         ),
                       );
                     } else if (state is SignupSuccess) {
+                      Navigator.pop(context); // close the loading dialog
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Colors.green,
                           elevation: 6,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                           ),
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 12,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 12.h,
                           ),
                           content: const Row(
                             children: [
-                              Icon(Icons.error_outline, color: Colors.white),
+                              Icon(Icons.check_circle, color: Colors.white),
                               SizedBox(width: 14),
                               Expanded(
                                 child: Text(
                                   'Your account has been created successfully!',
-
                                   style: TextStyle(color: Colors.white),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -108,6 +108,7 @@ class SigninScreen extends StatelessWidget {
                           duration: const Duration(seconds: 4),
                         ),
                       );
+
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (_) => LoginScreen()),
@@ -119,11 +120,11 @@ class SigninScreen extends StatelessWidget {
                           backgroundColor: Colors.redAccent,
                           elevation: 6,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                           ),
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 12,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 12.h,
                           ),
                           content: Row(
                             children: [
@@ -131,7 +132,7 @@ class SigninScreen extends StatelessWidget {
                                 Icons.error_outline,
                                 color: Colors.white,
                               ),
-                              const SizedBox(width: 14),
+                              SizedBox(width: 14.w),
                               Expanded(
                                 child: Text(
                                   state.message,
@@ -155,9 +156,8 @@ class SigninScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                SizedBox(height: 40.h),
 
-                /// Social Login
                 SocialLoginSection(
                   facebookLabel: 'Facebook',
                   googleLabel: 'Google',

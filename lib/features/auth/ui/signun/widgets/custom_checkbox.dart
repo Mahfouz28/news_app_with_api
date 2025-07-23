@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomCheckbox extends StatefulWidget {
   final String label;
   final Color activeColor;
-  final double fontSize;
-  final EdgeInsetsGeometry padding;
+  final double? fontSize;
+  final EdgeInsetsGeometry? padding;
   final ValueChanged<bool>? onChanged;
 
   const CustomCheckbox({
     super.key,
     required this.label,
     this.activeColor = Colors.blue,
-    this.fontSize = 14.0,
-    this.padding = const EdgeInsets.only(top: 0),
+    this.fontSize,
+    this.padding,
     this.onChanged,
   });
 
@@ -35,30 +36,43 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding,
+      padding: widget.padding ?? EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // ✅ Checkbox + label
+          // Checkbox and label
           Row(
             children: [
-              Checkbox(
-                value: isChecked,
-                onChanged: _handleChange,
-                activeColor: widget.activeColor,
+              SizedBox(
+                width: 24.w,
+                height: 24.w,
+                child: Checkbox(
+                  value: isChecked,
+                  onChanged: _handleChange,
+                  activeColor: widget.activeColor,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
               ),
-              Text(widget.label, style: TextStyle(fontSize: widget.fontSize)),
+              SizedBox(width: 8.w),
+              Text(
+                widget.label,
+                style: TextStyle(fontSize: widget.fontSize ?? 14.sp),
+              ),
             ],
           ),
 
-          // ✅ Forgot password button
+          // Forgot password
           TextButton(
             onPressed: () {
               // Handle forgot password tap
             },
-            child: const Text(
+            child: Text(
               "Forgot the password?",
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: Colors.blue,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
         ],

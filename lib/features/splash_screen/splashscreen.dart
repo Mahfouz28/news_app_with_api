@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app_with_api/features/onboarding/ui/views/screen/onboarding_view.dart';
 
 class Splashscreen extends StatefulWidget {
@@ -16,12 +17,14 @@ class _MyWidgetState extends State<Splashscreen> {
   void initState() {
     super.initState();
 
+    // Trigger opacity animation
     Timer(const Duration(seconds: 1), () {
       setState(() {
         opacity = 1.0;
       });
     });
 
+    // Navigate to onboarding screen after delay
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(
@@ -46,7 +49,11 @@ class _MyWidgetState extends State<Splashscreen> {
         duration: const Duration(seconds: 1),
         opacity: opacity,
         child: Center(
-          child: Image.asset("assets/logo.png", height: 90, width: 160),
+          child: Image.asset(
+            "assets/logo.png",
+            height: 90.h,
+            width: 160.w,
+          ),
         ),
       ),
     );

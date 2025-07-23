@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:news_app_with_api/cubit/home_page_cubit.dart';
 import 'package:news_app_with_api/features/auth/ui/login/cubit/cubit/login_cubit_cubit.dart';
 import 'package:news_app_with_api/features/auth/ui/signun/screen/signup_screen.dart';
@@ -9,8 +11,6 @@ import 'package:news_app_with_api/features/auth/ui/signun/widgets/custom_text_fi
 import 'package:news_app_with_api/features/auth/ui/signun/widgets/socialloginsection.dart';
 import 'package:news_app_with_api/features/auth/ui/signun/widgets/upper_siginin.dart';
 import 'package:news_app_with_api/features/home/ui/views/widgets/bottomnav.dart';
-
-// importاتك كما هي...
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24.r),
           child: Form(
             key: _formKey,
             child: Column(
@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                   color1: Colors.blue,
                   suptitel: 'Welcome back you’ve\nbeen missed',
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 CustomTextField(
                   controller: loginCubit.emailController,
@@ -45,7 +45,7 @@ class LoginScreen extends StatelessWidget {
                   fieldName: 'Email',
                   isPassword: false,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 CustomTextField(
                   controller: loginCubit.passwordController,
@@ -53,13 +53,13 @@ class LoginScreen extends StatelessWidget {
                   fieldName: 'Password',
                   isPassword: true,
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
 
                 const CustomCheckbox(
                   label: 'Remember me',
                   activeColor: Colors.blue,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 BlocListener<LoginCubitCubit, LoginCubitState>(
                   listener: (context, state) {
@@ -75,7 +75,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       );
                     } else if (state is LoginSuccess) {
-                      Navigator.pop(context); // إغلاق Dialog
+                      Navigator.pop(context);
                       final homeCubit = context.read<HomePageCubit>();
                       Navigator.push(
                         context,
@@ -87,28 +87,32 @@ class LoginScreen extends StatelessWidget {
                         ),
                       );
                     } else if (state is LoginError) {
-                      Navigator.pop(context); // إغلاق Dialog
-
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Colors.redAccent,
                           elevation: 6,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                           ),
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 12,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 12.h,
                           ),
                           content: Row(
                             children: [
-                              const Icon(Icons.error_outline, color: Colors.white),
-                              const SizedBox(width: 14),
+                              const Icon(
+                                Icons.error_outline,
+                                color: Colors.white,
+                              ),
+                              SizedBox(width: 14.w),
                               Expanded(
                                 child: Text(
                                   state.message,
-                                  style: const TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                  ),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -128,7 +132,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 50),
+                SizedBox(height: 50.h),
 
                 SocialLoginSection(
                   facebookLabel: 'Facebook',
