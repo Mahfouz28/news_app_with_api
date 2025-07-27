@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app_with_api/features/home/ui/views/book_mark.dart';
 import 'package:news_app_with_api/features/home/ui/views/explorscreen.dart';
 import 'package:news_app_with_api/features/home/ui/views/home_view.dart';
 
@@ -16,7 +17,7 @@ class _BottomNavState extends State<BottomNav> {
   final List<Widget> _screens = const [
     HomeView(),
     Explorscreen(),
-    Center(child: Text("Bookmark Screen")),
+    BookMark(),
     Center(child: Text("Profile Screen")),
   ];
 

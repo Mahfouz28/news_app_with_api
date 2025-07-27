@@ -74,6 +74,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       );
+                      Navigator.pop(context); 
                     } else if (state is LoginSuccess) {
                       Navigator.pop(context);
                       final homeCubit = context.read<HomePageCubit>();
@@ -95,10 +96,12 @@ class LoginScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16.r),
                           ),
+
                           margin: EdgeInsets.symmetric(
                             horizontal: 20.w,
                             vertical: 12.h,
                           ),
+
                           content: Row(
                             children: [
                               const Icon(
