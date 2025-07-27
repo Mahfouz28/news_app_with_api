@@ -11,6 +11,7 @@ class CustomTextField extends StatefulWidget {
   final IconData? prefixicone; // Optional prefix icon
   final IconData? suffixIcon; // Optional suffix icon
   final ValueChanged<String>? onChange; // Callback when text changes
+  final FormFieldValidator<String>? validator;
 
   const CustomTextField({
     super.key,
@@ -21,6 +22,7 @@ class CustomTextField extends StatefulWidget {
     this.prefixicone,
     this.suffixIcon,
     this.onChange,
+    this.validator,
   });
 
   @override
@@ -67,6 +69,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
           SizedBox(height: 8.h), // Spacing between label and input field
           // The main text field
           TextFormField(
+            validator: widget.validator,
+
             onChanged: widget.onChange, // Handle text change
             controller:
                 widget.controller ??
@@ -85,7 +89,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
               // Red border when there's an error
               errorBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.red),
-                
               ),
 
               // Placeholder text inside the field

@@ -39,7 +39,19 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
 
+                // Email Field
                 CustomTextField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Email is required';
+                    }
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$',
+                    ).hasMatch(value)) {
+                      return 'Enter a valid email address';
+                    }
+                    return null;
+                  },
                   controller: loginCubit.emailController,
                   hintText: 'Enter your email',
                   fieldName: 'Email',
@@ -47,7 +59,17 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
 
+                // Password Field
                 CustomTextField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    }
+                    if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
                   controller: loginCubit.passwordController,
                   hintText: 'Enter your password',
                   fieldName: 'Password',
@@ -61,6 +83,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
 
+                // BlocListener to handle login logic
                 BlocListener<LoginCubitCubit, LoginCubitState>(
                   listener: (context, state) {
                     if (state is LoginLoading) {
@@ -74,11 +97,16 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       );
-                      Navigator.pop(context); 
                     } else if (state is LoginSuccess) {
+                      // Close the loading dialog
                       Navigator.pop(context);
+
+                      // Trigger fetch news immediately
                       final homeCubit = context.read<HomePageCubit>();
-                      Navigator.push(
+                      homeCubit.getNewsByCategory();
+
+                      // Navigate to BottomNav
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (_) => BlocProvider.value(
@@ -88,6 +116,10 @@ class LoginScreen extends StatelessWidget {
                         ),
                       );
                     } else if (state is LoginError) {
+                      // Close the loading dialog
+                      Navigator.pop(context);
+
+                      // Show error message
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
@@ -96,12 +128,10 @@ class LoginScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16.r),
                           ),
-
                           margin: EdgeInsets.symmetric(
                             horizontal: 20.w,
                             vertical: 12.h,
                           ),
-
                           content: Row(
                             children: [
                               const Icon(
@@ -130,13 +160,15 @@ class LoginScreen extends StatelessWidget {
                   child: CustomTextButton(
                     label: 'Login',
                     onPressed: () {
-                      loginCubit.loginWithEmail();
+                      if (_formKey.currentState!.validate()) {
+                        loginCubit.loginWithEmail();
+                      }
                     },
                   ),
                 ),
-
                 SizedBox(height: 50.h),
 
+                // Social login + Sign up link
                 SocialLoginSection(
                   facebookLabel: 'Facebook',
                   googleLabel: 'Google',

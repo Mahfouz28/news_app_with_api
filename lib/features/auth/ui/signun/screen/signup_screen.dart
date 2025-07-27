@@ -17,11 +17,15 @@ class SigninScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final signupCubit = context.read<SignupCubit>();
 
+    // GlobalKey to validate the form
+    final formKey = GlobalKey<FormState>();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(24.r),
           child: Form(
+            key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -34,27 +38,52 @@ class SigninScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
 
+                // Username Field
                 CustomTextField(
                   controller: signupCubit.emailController,
                   hintText: 'Enter your username',
                   fieldName: 'Username',
                   isPassword: false,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Username is required';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 16.h),
 
+                // Password Field
                 CustomTextField(
                   controller: signupCubit.passwordController,
                   hintText: 'Enter your password',
                   fieldName: 'Password',
                   isPassword: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    } else if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 16.h),
 
+                // Confirm Password Field
                 CustomTextField(
                   controller: signupCubit.confirmPasswordController,
                   hintText: 'Confirm password',
                   fieldName: 'Confirm Password',
                   isPassword: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Confirm password is required';
+                    } else if (value != signupCubit.passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 16.h),
 
@@ -64,6 +93,7 @@ class SigninScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
 
+                // Signup Button
                 BlocListener<SignupCubit, SignupState>(
                   listener: (context, state) {
                     if (state is SignupLoading) {
@@ -77,7 +107,7 @@ class SigninScreen extends StatelessWidget {
                         ),
                       );
                     } else if (state is SignupSuccess) {
-                      Navigator.pop(context); // close the loading dialog
+                      Navigator.pop(context);
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -114,6 +144,8 @@ class SigninScreen extends StatelessWidget {
                         MaterialPageRoute(builder: (_) => LoginScreen()),
                       );
                     } else if (state is SignupError) {
+                      Navigator.pop(context);
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
@@ -151,7 +183,9 @@ class SigninScreen extends StatelessWidget {
                   child: CustomTextButton(
                     label: 'Sign up',
                     onPressed: () {
-                      signupCubit.signup();
+                      if (formKey.currentState!.validate()) {
+                        signupCubit.signup();
+                      }
                     },
                   ),
                 ),

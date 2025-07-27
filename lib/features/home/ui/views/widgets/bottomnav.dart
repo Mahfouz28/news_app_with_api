@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_with_api/features/home/ui/views/book_mark.dart';
-import 'package:news_app_with_api/features/home/ui/views/explorscreen.dart';
-import 'package:news_app_with_api/features/home/ui/views/home_view.dart';
+import 'package:news_app_with_api/features/home/ui/views/Screens/book_mark.dart';
+import 'package:news_app_with_api/features/home/ui/views/Screens/explorscreen.dart';
+import 'package:news_app_with_api/features/home/ui/views/Screens/home_view.dart';
+import 'package:news_app_with_api/features/home/ui/views/Screens/profile_screen.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -14,11 +15,11 @@ class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
-  final List<Widget> _screens = const [
-    HomeView(),
+  final List<Widget> _screens = [
+    const HomeView(),
     Explorscreen(),
-    BookMark(),
-    Center(child: Text("Profile Screen")),
+    const BookMark(),
+    const ProfileScreen()
   ];
 
   void _onItemTapped(int index) {

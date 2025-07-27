@@ -40,7 +40,7 @@ class OnBoarding extends StatelessWidget {
               ],
             ),
           ),
-          Lowerpage(),
+          const Lowerpage(),
         ],
       ),
     );

@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:news_app_with_api/features/home/ui/views/home_view.dart';
+import 'package:news_app_with_api/features/home/ui/views/Screens/home_view.dart';
 
 
 void main() {
