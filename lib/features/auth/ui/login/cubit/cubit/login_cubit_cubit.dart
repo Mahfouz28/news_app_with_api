@@ -6,6 +6,7 @@ part 'login_cubit_state.dart';
 
 class LoginCubitCubit extends Cubit<LoginCubitState> {
   LoginCubitCubit() : super(LoginCubitInitial());
+  final dio = DioClient();
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
