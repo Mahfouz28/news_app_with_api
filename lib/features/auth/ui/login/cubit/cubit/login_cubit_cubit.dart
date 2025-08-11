@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:news_app_with_api/core/network/dio_client.dart';
 
 part 'login_cubit_state.dart';
 
@@ -8,8 +9,23 @@ class LoginCubitCubit extends Cubit<LoginCubitState> {
   LoginCubitCubit() : super(LoginCubitInitial());
   final dio = DioClient();
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Signin() async {
+    try {
+      final respose = await dio.post(
+        "https//food-api-omega.vercel.app/api/user/signin",
+        data: {
+          "email": emailController.text,
+          "password": passwordController.text,
+        },
+      );
+      print(respose);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   Future<void> loginWithEmail() async {
     final email = emailController.text.trim();

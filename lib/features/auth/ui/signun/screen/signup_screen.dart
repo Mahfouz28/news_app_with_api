@@ -96,6 +96,7 @@ class SigninScreen extends StatelessWidget {
                 // Signup Button
                 BlocListener<SignupCubit, SignupState>(
                   listener: (context, state) {
+                    final cubit = context.read<SignupCubit>();
                     if (state is SignupLoading) {
                       showDialog(
                         context: context,
@@ -107,6 +108,9 @@ class SigninScreen extends StatelessWidget {
                         ),
                       );
                     } else if (state is SignupSuccess) {
+                      cubit.emailController.clear();
+                      cubit.passwordController.clear();
+                      cubit.confirmPasswordController.clear();
                       Navigator.pop(context);
 
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -139,9 +143,10 @@ class SigninScreen extends StatelessWidget {
                         ),
                       );
 
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(builder: (_) => LoginScreen()),
+                        (route) => false,
                       );
                     } else if (state is SignupError) {
                       Navigator.pop(context);

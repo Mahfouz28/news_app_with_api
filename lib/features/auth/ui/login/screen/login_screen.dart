@@ -86,6 +86,7 @@ class LoginScreen extends StatelessWidget {
                 // BlocListener to handle login logic
                 BlocListener<LoginCubitCubit, LoginCubitState>(
                   listener: (context, state) {
+                    final cubit = context.read<LoginCubitCubit>();
                     if (state is LoginLoading) {
                       showDialog(
                         context: context,
@@ -98,6 +99,9 @@ class LoginScreen extends StatelessWidget {
                         ),
                       );
                     } else if (state is LoginSuccess) {
+                      cubit.emailController.clear();
+                      cubit.passwordController.clear();
+
                       // Close the loading dialog
                       Navigator.pop(context);
 
@@ -106,7 +110,7 @@ class LoginScreen extends StatelessWidget {
                       homeCubit.getNewsByCategory();
 
                       // Navigate to BottomNav
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                           builder: (_) => BlocProvider.value(
@@ -114,6 +118,7 @@ class LoginScreen extends StatelessWidget {
                             child: const BottomNav(),
                           ),
                         ),
+                        (route) => false,
                       );
                     } else if (state is LoginError) {
                       // Close the loading dialog
